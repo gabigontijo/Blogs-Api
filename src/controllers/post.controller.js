@@ -1,5 +1,5 @@
  const postService = require('../services/post.service');
- const { CREATED, BAD_REQUEST, OK } = require('../utils/status-code');
+ const { CREATED, BAD_REQUEST, OK, NOT_FOUND } = require('../utils/status-code');
 
 const createBlogPost = async (req, res) => {
     const { title, content, categoryIds } = req.body;
@@ -19,4 +19,13 @@ const getBlogPost = async (req, res) => {
     return res.status(OK).send(blogPost);
 };
 
-module.exports = { createBlogPost, getBlogPost };
+const getBlogPostById = async (req, res) => {
+    const { id } = req.params;
+    const blogPost = await postService.getBlogPostById(id);
+    if (!blogPost) {
+        return res.status(NOT_FOUND).send({ message: 'Post does not exist' });
+    }
+    return res.status(OK).send(blogPost);
+};
+
+module.exports = { createBlogPost, getBlogPost, getBlogPostById };

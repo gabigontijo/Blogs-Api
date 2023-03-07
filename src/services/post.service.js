@@ -29,13 +29,22 @@ const createBlogPost = async (title, content, categoryIds, userId) => {
     return result;
 };
 
-const getBlogPost = async (id) => {
+const getBlogPost = async (userId) => {
     const result = await BlogPost.findOne({
-        where: { userId: id },
+        where: { userId },
         include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
                   { model: Category, as: 'categories', through: { attributes: [] } }],
     });
     return [result];
 };
 
-module.exports = { createBlogPost, getBlogPost };
+const getBlogPostById = async (id) => {
+    const result = await BlogPost.findOne({
+        where: { id },
+        include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
+                  { model: Category, as: 'categories', through: { attributes: [] } }],
+    });
+    return result;
+};
+
+module.exports = { createBlogPost, getBlogPost, getBlogPostById };
