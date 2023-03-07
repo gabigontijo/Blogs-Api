@@ -15,7 +15,6 @@ const createBlogPost = async (title, content, categoryIds, userId) => {
     const result = await sequelize.transaction(async (t) => {
         const lista = [];
         const blogPost = await BlogPost.create({ title, content, userId }, { transaction: t });
-        console.log(']]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]', blogPost.id);
 
         categoryIds.forEach((categoryId) => {
             console.log('coisa desse bem');
@@ -47,4 +46,21 @@ const getBlogPostById = async (id) => {
     return result;
 };
 
-module.exports = { createBlogPost, getBlogPost, getBlogPostById };
+const updatePostById = async (title, content, id, userId) => {
+    // const checkUser = await BlogPost.findOne({
+    //     where: { id, userId },
+    // });
+    // if (!checkUser) {
+    //     return { type: 'error', message: 'Unauthorized user' };
+    // }
+    const [updated] = await BlogPost.update({ title, content }, {
+        where: { id, userId },
+    });
+    console.log(updated);
+      if (!updated) {
+        return { type: 'error', message: 'Unauthorized user' };
+    }
+    return updated;
+};
+
+module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById };

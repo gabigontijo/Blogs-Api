@@ -1,5 +1,5 @@
  const postService = require('../services/post.service');
- const { CREATED, BAD_REQUEST, OK, NOT_FOUND } = require('../utils/status-code');
+ const { CREATED, BAD_REQUEST, OK, NOT_FOUND, UNAUTHORIZED } = require('../utils/status-code');
 
 const createBlogPost = async (req, res) => {
     const { title, content, categoryIds } = req.body;
@@ -28,4 +28,18 @@ const getBlogPostById = async (req, res) => {
     return res.status(OK).send(blogPost);
 };
 
-module.exports = { createBlogPost, getBlogPost, getBlogPostById };
+const updatePostById = async (req, res) => {
+    const { title, content } = req.body;
+    const { id } = req.params;
+    console.log('id', Number(id));
+    const { id: userId } = req.user;
+    console.log('Userid', userId);
+    const post = await postService.updatePostById(title, content, Number(id), userId);
+    if (post.type) {
+        return res.status(UNAUTHORIZED).send({ message: post.message });
+    }
+    const updatedPost = await postService.getBlogPostById(id);
+    return res.status(OK).send(updatedPost);
+};
+
+module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById };

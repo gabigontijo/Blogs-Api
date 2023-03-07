@@ -76,6 +76,15 @@ const validateLoginBody = (req, res, next) => {
     }
     next();
   };
+
+  const validationPostUpdateBody = async (req, res, next) => {
+    const { title, content } = req.body;
+    if (!title || !content) {
+      return res.status(BAD_REQUEST)
+      .send({ message: 'Some required fields are missing' });
+    }
+    next();
+  };
 module.exports = {
     validateLoginBody,
     validateUserDisplayName,
@@ -84,4 +93,5 @@ module.exports = {
     validateToken,
     validateCategoryBody,
     validationPostBody,
+    validationPostUpdateBody,
 };
