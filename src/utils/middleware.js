@@ -59,10 +59,20 @@ const validateLoginBody = (req, res, next) => {
       }
   };
 
+  const validateCategoryBody = async (req, res, next) => {
+    const { name } = req.body;
+    if (!name) {
+        return res.status(BAD_REQUEST)
+        .send({ message: '"name" is required' });
+    }
+    next();
+  };
+
 module.exports = {
     validateLoginBody,
     validateUserDisplayName,
     validateUserEmail,
     validateUserPassword,
     validateToken,
+    validateCategoryBody,
 };

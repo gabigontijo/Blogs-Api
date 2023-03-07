@@ -8,7 +8,6 @@ const enterLogin = async (email, password) => {
 const createUser = async (displayName, email, password, image) => {
     try {
         const newUser = await User.create({ displayName, email, password, image });
-        console.log(newUser);
         return newUser;
     } catch (e) {
         return { type: 'error', message: 'User already registered' };
