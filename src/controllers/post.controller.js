@@ -1,5 +1,5 @@
  const postService = require('../services/post.service');
- const { CREATED, BAD_REQUEST } = require('../utils/status-code');
+ const { CREATED, BAD_REQUEST, OK } = require('../utils/status-code');
 
 const createBlogPost = async (req, res) => {
     const { title, content, categoryIds } = req.body;
@@ -13,4 +13,10 @@ const createBlogPost = async (req, res) => {
     }
 };
 
-module.exports = { createBlogPost };
+const getBlogPost = async (req, res) => {
+    const { id } = req.user;
+    const blogPost = await postService.getBlogPost(id);
+    return res.status(OK).send(blogPost);
+};
+
+module.exports = { createBlogPost, getBlogPost };
