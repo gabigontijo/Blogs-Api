@@ -19,9 +19,7 @@ const login = async (req, res) => {
     if (newUser.type) {
         return res.status(CONFLICT).send({ message: newUser.message });
     }
-    console.log('email-----------', email);
     const token = tokenGen(email);
-    console.log('token-------------', token);
     return res.status(CREATED).send({ token });
   };
 

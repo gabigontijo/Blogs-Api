@@ -11,7 +11,7 @@ const createUser = async (displayName, email, password, image) => {
         return newUser;
     } catch (e) {
         return { type: 'error', message: 'User already registered' };
-    } 
+    }
 };
 
 const getUser = async (email) => {
