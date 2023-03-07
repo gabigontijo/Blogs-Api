@@ -1,5 +1,5 @@
 const userService = require('../services/user.service');
-const { BAD_REQUEST, OK, CONFLICT, CREATED } = require('../utils/status-code');
+const { BAD_REQUEST, OK, CONFLICT, CREATED, NOT_FOUND } = require('../utils/status-code');
 const { tokenGen } = require('../utils/validateJWT');
 
 const login = async (req, res) => {
@@ -30,8 +30,19 @@ const login = async (req, res) => {
     return res.status(OK).send(allUsers);
   };
 
+  const getUserById = async (req, res) => {
+    const { id } = req.params;
+    const user = await userService.getUserById(id);
+
+    if (!user) {
+        return res.status(NOT_FOUND).send({ message: 'User does not exist' });
+    }
+    return res.status(OK).send(user);
+  };
+
 module.exports = {
     login,
     createUser,
     getAllUsers,
+    getUserById,
 };

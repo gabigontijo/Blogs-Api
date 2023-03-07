@@ -10,4 +10,6 @@ validateUserEmail, validateUserPassword, userController.createUser);
 
 routerUser.get('/', validateToken, userController.getAllUsers);
 
+routerUser.get('/:id', validateToken, userController.getUserById);
+
 module.exports = routerUser;

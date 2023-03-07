@@ -27,4 +27,10 @@ const getAllUsers = async () => {
     return allUsers;
 };
 
-module.exports = { enterLogin, createUser, getUser, getAllUsers };
+const getUserById = async (id) => {
+    const user = await User.findOne({ where: { id },
+    attributes: { exclude: 'password' } });
+    return user;
+};
+
+module.exports = { enterLogin, createUser, getUser, getAllUsers, getUserById };
