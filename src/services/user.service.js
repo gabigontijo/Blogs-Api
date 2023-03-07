@@ -5,12 +5,26 @@ const enterLogin = async (email, password) => {
     return user;
 };
 
-const creatUser = async (displayName, email, password, image) => {
+const createUser = async (displayName, email, password, image) => {
     try {
         const newUser = await User.create({ displayName, email, password, image });
+        console.log(newUser);
         return newUser;
     } catch (e) {
         return { type: 'error', message: 'User already registered' };
     }
 };
-module.exports = { enterLogin, creatUser };
+
+const getUser = async (email) => {
+    const user = await User.findOne({ where: { email } });
+    return user;
+};
+
+const getAllUsers = async () => {
+    const allUsers = await User.findAll({
+        attributes: { exclude: 'password' },
+    });
+    return allUsers;
+};
+
+module.exports = { enterLogin, createUser, getUser, getAllUsers };

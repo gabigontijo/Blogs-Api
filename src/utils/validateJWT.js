@@ -6,6 +6,17 @@ const jwtConfig = {
   algorithm: 'HS256',
 };
 
- const tokenGen = (email) => jwt.sign({ data: { email } }, secret, jwtConfig);
+ const tokenGen = (email) => {
+    const token = jwt.sign({ data: { email } }, secret, jwtConfig);
+    return token;
+ };
 
- module.exports = tokenGen;
+ const tokenVerify = (token) => {
+    const { data: { email } } = jwt.verify(token, secret);
+    return email;
+};
+
+ module.exports = {
+    tokenGen,
+    tokenVerify,
+ };

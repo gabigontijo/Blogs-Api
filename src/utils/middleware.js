@@ -1,4 +1,6 @@
-const { BAD_REQUEST } = require('./status-code');
+const { BAD_REQUEST, UNAUTHORIZED } = require('./status-code');
+const userService = require('../services/user.service');
+const { tokenVerify } = require('./validateJWT');
 
 const validateLoginBody = (req, res, next) => {
     const { email, password } = req.body;
@@ -38,9 +40,29 @@ const validateLoginBody = (req, res, next) => {
     next();
   };
 
+  const validateToken = async (req, res, next) => {
+    const token = req.header('Authorization');
+    if (!token) {
+        return res.status(UNAUTHORIZED)
+        .send({ message: 'Token not found' });
+    }
+    try {
+        const verify = tokenVerify(token);
+        const user = await userService.getUser(verify);
+        if (!user) {
+          return res.status(UNAUTHORIZED).send({ message: 'Expired or invalid token' });
+        }
+        req.user = user;
+        next();
+      } catch (err) {
+        return res.status(UNAUTHORIZED).send({ message: 'Expired or invalid token' });
+      }
+  };
+
 module.exports = {
     validateLoginBody,
     validateUserDisplayName,
     validateUserEmail,
     validateUserPassword,
+    validateToken,
 };
