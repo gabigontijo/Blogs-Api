@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
       updated: DataTypes.DATE,
     },
     {
-      timestamps: false, // remove a obrigatoriedade de utilizar os campos `createdAt` e `updatedAt`
+      timestamps: true,
+      createdAt: 'published',
+      updatedAt: 'updated',
       tableName: 'blog_posts',
       underscored: true,
     });
