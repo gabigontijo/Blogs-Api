@@ -1,4 +1,4 @@
-const { BAD_REQUEST, CREATED } = require('../utils/status-code');
+const { BAD_REQUEST, CREATED, OK } = require('../utils/status-code');
 const categoryService = require('../services/category.service');
 
 const createCategory = async (req, res) => {
@@ -10,8 +10,9 @@ const createCategory = async (req, res) => {
     return res.status(CREATED).send(category);
 };
 
-// const getCategory = async (req, res) => {
+const getAllCategories = async (req, res) => {
+    const allCategories = await categoryService.getAllCategories();
+    return res.status(OK).send(allCategories);
+};
 
-// };
-
-module.exports = { createCategory };
+module.exports = { createCategory, getAllCategories };
