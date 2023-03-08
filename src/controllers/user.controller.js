@@ -1,5 +1,6 @@
 const userService = require('../services/user.service');
-const { BAD_REQUEST, OK, CONFLICT, CREATED, NOT_FOUND, INTERNAL_SERVER_ERROR, NO_CONTENT } = require('../utils/status-code');
+const { BAD_REQUEST, OK, CONFLICT, CREATED, NOT_FOUND,
+  INTERNAL_SERVER_ERROR, NO_CONTENT } = require('../utils/status-code');
 const { tokenGen } = require('../utils/validateJWT');
 
 const login = async (req, res) => {

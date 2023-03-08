@@ -60,4 +60,16 @@ const deletePost = async (req, res) => {
     }
 };
 
-module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById, deletePost };
+const getBlogPostSearch = async (req, res) => {
+    const { q } = req.query;
+    const search = await postService.getBlogPostSearch(q);
+    return res.status(OK).send(search);
+};
+
+module.exports = {
+    createBlogPost,
+    getBlogPost,
+    getBlogPostById,
+    updatePostById,
+    deletePost,
+    getBlogPostSearch };

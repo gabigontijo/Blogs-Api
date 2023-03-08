@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const { PostCategory, BlogPost, User, Category } = require('../models');
 
 const env = process.env.NODE_ENV || 'development';
@@ -73,4 +74,26 @@ const deletePost = async (id, userId) => {
     return { type: null };
     };
 
-module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById, deletePost };
+    const getBlogPostSearch = async (q) => {
+         const search = await BlogPost.findAll({
+            where: {
+                [Op.or]: [
+                    { title: { [Op.like]: `%${q}%` },
+                    },
+                    { content: { [Op.like]: `%${q}%` },
+                    },
+                ],
+            },
+            include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
+                  { model: Category, as: 'categories', through: { attributes: [] } }],
+        });
+    return search;
+    };
+
+module.exports = {
+    createBlogPost,
+    getBlogPost,
+    getBlogPostById,
+    updatePostById,
+    deletePost,
+    getBlogPostSearch };
