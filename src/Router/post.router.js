@@ -9,5 +9,6 @@ routerPost.post('/', validateToken, validationPostBody, postController.createBlo
 routerPost.get('/', validateToken, postController.getBlogPost);
 routerPost.get('/:id', validateToken, postController.getBlogPostById);
 routerPost.put('/:id', validateToken, validationPostUpdateBody, postController.updatePostById);
+routerPost.delete('/:id', validateToken, postController.deletePost);
 
 module.exports = routerPost;

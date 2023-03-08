@@ -1,5 +1,6 @@
  const postService = require('../services/post.service');
- const { CREATED, BAD_REQUEST, OK, NOT_FOUND, UNAUTHORIZED } = require('../utils/status-code');
+ const { CREATED, BAD_REQUEST, OK, NOT_FOUND,
+    UNAUTHORIZED, NO_CONTENT, INTERNAL_SERVER_ERROR } = require('../utils/status-code');
 
 const createBlogPost = async (req, res) => {
     const { title, content, categoryIds } = req.body;
@@ -31,9 +32,7 @@ const getBlogPostById = async (req, res) => {
 const updatePostById = async (req, res) => {
     const { title, content } = req.body;
     const { id } = req.params;
-    console.log('id', Number(id));
     const { id: userId } = req.user;
-    console.log('Userid', userId);
     const post = await postService.updatePostById(title, content, Number(id), userId);
     if (post.type) {
         return res.status(UNAUTHORIZED).send({ message: post.message });
@@ -42,4 +41,23 @@ const updatePostById = async (req, res) => {
     return res.status(OK).send(updatedPost);
 };
 
-module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById };
+const deletePost = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { id: userId } = req.user;
+        const post = await postService.deletePost(Number(id), userId);
+        console.log('dfsfdsfsdfsdfsdfdsfdsfds', post);
+        if (post.type === 401) {
+            return res.status(UNAUTHORIZED).send({ message: post.message });
+        }
+        if (post.type === 404) {
+            return res.status(NOT_FOUND).send({ message: post.message });
+        }
+            return res.sendStatus(NO_CONTENT);
+    } catch (error) {
+        console.log(error);
+        return res.status(INTERNAL_SERVER_ERROR).send({ message: 'fail to delete post' });
+    }
+};
+
+module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById, deletePost };

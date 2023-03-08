@@ -47,12 +47,6 @@ const getBlogPostById = async (id) => {
 };
 
 const updatePostById = async (title, content, id, userId) => {
-    // const checkUser = await BlogPost.findOne({
-    //     where: { id, userId },
-    // });
-    // if (!checkUser) {
-    //     return { type: 'error', message: 'Unauthorized user' };
-    // }
     const [updated] = await BlogPost.update({ title, content }, {
         where: { id, userId },
     });
@@ -63,4 +57,20 @@ const updatePostById = async (title, content, id, userId) => {
     return updated;
 };
 
-module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById };
+const deletePost = async (id, userId) => {
+    const checkPost = await BlogPost.findOne({
+        where: { id },
+    });
+    if (!checkPost) {
+        return { type: 404, message: 'Post does not exist' };
+    }
+    if (checkPost.userId !== userId) {
+        return { type: 401, message: 'Unauthorized user' };
+    }
+     await BlogPost.destroy({
+        where: { id },
+    });
+    return { type: null };
+    };
+
+module.exports = { createBlogPost, getBlogPost, getBlogPostById, updatePostById, deletePost };
