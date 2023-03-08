@@ -11,5 +11,6 @@ validateUserEmail, validateUserPassword, userController.createUser);
 routerUser.get('/', validateToken, userController.getAllUsers);
 
 routerUser.get('/:id', validateToken, userController.getUserById);
+routerUser.delete('/me', validateToken, userController.deleteMe);
 
 module.exports = routerUser;
