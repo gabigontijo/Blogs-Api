@@ -26,17 +26,17 @@ docker-compose up -d
 docker exec -it blogs_api bash
 npm install
 ```
-* Executar a aplicação/ Start application
+* Start application
 
 ```
 npm start
 ```
-* ou/or
+* or
 ```
  npm run dev
 ```
 
-## :dart: Status do projeto/ Project status
-* Projeto finalizado/ Finished project.
+## :dart: Project status
+*  Finished project.
 
 *This work was implemented on the basis of Trybe projects and has its copyright reserved.
