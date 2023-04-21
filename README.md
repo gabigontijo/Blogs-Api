@@ -13,7 +13,7 @@ An API and a database were developed to produce content for a blog with Node.js 
 * Sequelize;
 * MySQL;
 * Nodemom;
-*JavaScript;
+* JavaScript;
 
 ## :rocket: Running the project
 * To run the repository it is necessary to clone it, give the following command to start the project:
